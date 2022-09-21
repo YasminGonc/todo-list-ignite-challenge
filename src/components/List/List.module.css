@@ -1,7 +1,6 @@
 .container {
-    background-color: red;
-
-    margin: 0 22rem;
+    width: 46rem;
+    margin: 0 auto;
 
     display: flex;
     flex-direction: column;
@@ -18,7 +17,7 @@
 }
 
 .form > input[type='text'] {
-    width: 45rem;
+    width: 85%;
     height: 3.375rem;
     padding: 1rem;
 
@@ -28,8 +27,9 @@
 }
 
 .form > button {
-    width: 5.625rem;
+    width: 10%;
     height: 3.375rem;
+    padding: 0.2rem;
 
     display: flex;
     align-items: center;
@@ -39,6 +39,7 @@
     color: var(--gray-100);
     background: var(--blue-dark);
     border-radius: 8px;
+    border: 0;
 
     cursor: pointer;
 }
@@ -97,6 +98,7 @@
 .toDoList {
     width: 100%;
     padding: 1rem;
+    margin-bottom: 0.75rem;
     
     background: var(--gray-500);
     border: 1px solid var(--gray-400);
@@ -106,4 +108,104 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+}
+
+.toDo {
+    display: flex;
+    align-items: center;
+
+    color: var(--gray-100);
+    font-size: 0.875rem;
+}
+
+.bullet {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-right: 0.5rem;
+
+    background-color: transparent;
+    border: 2px solid var(--blue);
+    border-radius: 50%;
+    outline: 0;
+}
+
+.bullet:hover {
+    background-color: var(--blue-dark);
+    opacity: 0.2;
+}
+
+.bullet:focus {
+    box-shadow: 0 0 0 0px var(--purple-dark);
+}
+
+.bullet[data-state="checked"] {
+    background-color: var(--purple);
+}
+
+.bullet[data-state="checked"] + label {
+    text-decoration: line-through;
+}
+
+.indicator {
+    color: var(--gray-100);
+}
+
+.trashIcon {
+    height: 1.5rem;
+    width: 1.5rem;
+    padding: 0.2rem;
+    border-radius: 4px;
+}
+
+.trashIcon:hover {
+    color: var(--danger);
+    background-color: var(--gray-400);   
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 40rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .container {
+        width: 30rem;
+    }
+}
+
+@media (max-width: 500px) {
+    .container {
+        width: 25rem;
+    }
+}
+
+@media screen and (max-width: 426px) {
+    .container {
+        width: 23rem;
+    }
+
+    .form > input[type='text'] {
+        width: 71%;
+    }
+
+    .form > button {
+        width: 22%;
+    }
+}
+
+@media screen and (max-width: 376px) {
+    .container {
+        width: 20rem;
+    }
+}
+
+@media screen and (max-width: 321px) {
+    .container {
+        width: 18rem;
+    }
 }

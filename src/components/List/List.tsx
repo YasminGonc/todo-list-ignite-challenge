@@ -1,6 +1,6 @@
 import styles from './List.module.css';
 
-import { PlusCircle, Trash } from "phosphor-react";
+import { Check, PlusCircle, Trash } from "phosphor-react";
 import * as Checkbox from '@radix-ui/react-checkbox';
 
 export function List() {
@@ -27,15 +27,33 @@ export function List() {
 
             <div className={styles.toDoList}>
 
-                <div>
-                    <Checkbox.Root id='c1'>
-                        <Checkbox.Indicator />
+                <div className={styles.toDo}>
+                    <Checkbox.Root className={styles.bullet} id='c1'>
+                        <Checkbox.Indicator className={styles.indicator}>
+                            <Check size={13}/>
+                        </Checkbox.Indicator>
                     </Checkbox.Root>
                     <label htmlFor="c1">
                         Terminar o desafio
                     </label>
                 </div>
-                <Trash />
+                <Trash className={styles.trashIcon}/>
+
+            </div>
+
+            <div className={styles.toDoList}>
+
+            <div className={styles.toDo}>
+                <Checkbox.Root className={styles.bullet} id='c1'>
+                    <Checkbox.Indicator className={styles.indicator}>
+                        <Check size={13}/>
+                    </Checkbox.Indicator>
+                </Checkbox.Root>
+                <label htmlFor="c1">
+                    Terminar o desafio
+                </label>
+            </div>
+            <Trash className={styles.trashIcon}/>
 
             </div>
         </div>
