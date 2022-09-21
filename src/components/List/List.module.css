@@ -1,0 +1,109 @@
+.container {
+    background-color: red;
+
+    margin: 0 22rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form {
+    width: 100%;
+    margin-top: -2rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form > input[type='text'] {
+    width: 45rem;
+    height: 3.375rem;
+    padding: 1rem;
+
+    background: var(--gray-500);
+    border: 1px solid var(--gray-700);
+    border-radius: 8px;
+}
+
+.form > button {
+    width: 5.625rem;
+    height: 3.375rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+
+    color: var(--gray-100);
+    background: var(--blue-dark);
+    border-radius: 8px;
+
+    cursor: pointer;
+}
+
+.form > button:hover {
+    background: var(--blue);
+}
+
+.containerTasks {
+    width: 100%;
+    margin: 2rem 0 1.5rem 0;
+
+    font-size: 0.875rem;
+    font-weight: 700;
+
+    display: flex; 
+    justify-content: space-between;
+}
+
+.createdTasks {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    height: max-content;
+
+    color: var(--blue);
+}
+
+.createdTasks > span {
+    color: var(--gray-200);
+
+    background: var(--gray-400);
+    padding: 0.125rem 0.5rem;
+    border-radius: 999px;   
+}
+
+.completedTasks {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+
+    height: max-content;
+
+    color: var(--purple);
+}
+
+.completedTasks > span {
+    color: var(--gray-200);
+
+    background: var(--gray-400);
+    padding: 0.125rem 0.5rem;
+    border-radius: 999px;
+}
+
+.toDoList {
+    width: 100%;
+    padding: 1rem;
+    
+    background: var(--gray-500);
+    border: 1px solid var(--gray-400);
+    border-radius: 8px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.06);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
