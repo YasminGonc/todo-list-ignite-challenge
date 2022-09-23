@@ -1,10 +1,13 @@
-import { ChangeEvent, FormEvent, MouseEvent, useState } from 'react';
+import { useState } from 'react';
 import styles from './List.module.css';
 
+import { Form } from '../Form/Form';
+import { v4 as uuidv4 } from 'uuid';
 import { Check, ClipboardText, PlusCircle, Trash } from "phosphor-react";
 import * as Checkbox from '@radix-ui/react-checkbox';
 
 interface toDos {
+    id: string;
     text: string;
     checked: boolean;
 }
@@ -20,88 +23,121 @@ export function List() {
 
     const [doneToDos, setDoneToDos] = useState<toDos[]>([]);
 
+    const [activeToDos, setActiveToDos] = useState<toDos[]>([]);
+
     const noneToDos = Boolean(toDos.length == 0);
 
-    function handleNewToDoChange(event: ChangeEvent<HTMLInputElement>) {
-        setNewToDo(event.target.value);
+    const [showAll, setShowAll] = useState(true);
+
+    const [showDoneOnes, setShowDoneOnes] = useState(false);
+
+    const [showActiveOnes, setShowActiveOnes] = useState(false);
+
+    function handleNewToDoChange(text: string) { 
+        setNewToDo(text);
     }
 
-    function handleToDo(event: FormEvent) {
-        event.preventDefault();
+    function handleToDo() {
         setToDos([...toDos, 
             {
+                id: uuidv4(),
                 text: newToDo,
                 checked: false
             }
         ]);
+
         setNewToDo('');
-        setcreateToDos(createToDos + 1);
+
+        setcreateToDos((state) => {
+            return state + 1;
+        });
     }
 
-    function handleDoneToDos(checked: boolean | 'indeterminate', toDoText: toDos['text']) {
+    function handleDoneToDos(checked: boolean | 'indeterminate', toDoId: toDos['id']) {
         if (checked) {
-            setCountDoneToDos(countDoneToDos + 1);
+            setCountDoneToDos((state) => {
+                return state + 1;
+            });
+           
+            const doneToDos = toDos.map(toDo => {return toDo.id == toDoId ? { ...toDo, checked: !toDo.checked} : {...toDo, checked: toDo.checked}});
 
-            setDoneToDos([...doneToDos,
-                {
-                    text: toDoText,
-                    checked: true
-                } 
-            ]);
+            setToDos(doneToDos);
         }
     }
 
     function handleDeleteToDos(toDoToDelete: string) {
         const toDoToWithoutDeletedOne = toDos.filter(toDo => {
-            return toDo.text != toDoToDelete;
+            return toDo.id != toDoToDelete;
         });
 
         setToDos(toDoToWithoutDeletedOne);
+
+        setcreateToDos((state) => {
+            return state - 1;
+        });
+
+        setCountDoneToDos((state) => {
+            return state - 1;
+        });
     }
 
     function showDoneToDos() {
-        setToDos(doneToDos);
+        const doneToDosList = toDos.filter(toDo => {
+            return toDo.checked == true;
+        });
+
+        setDoneToDos(doneToDosList);
+        setShowAll(false);
+        setShowDoneOnes(true);
+        setShowActiveOnes(false);
     }
 
     function showActiveToDos() {
-        //update toDos with the done tasks
-        for (let i = 0; i < doneToDos.length; i++){
-            if(toDos[i].text == doneToDos[i].text && toDos[i].checked != doneToDos[i].checked) {
-                toDos[i].checked = true;
-            }
-            console.log(toDos);
-            const activeToDos = toDos.filter(toDo => toDo.checked == false);
-            console.log(activeToDos);
-        }
-        
-        
-        
+        const activeToDosList = toDos.filter(toDo => {
+            return toDo.checked == false;
+        });
+
+        setActiveToDos(activeToDosList);
+        setShowAll(false);
+        setShowDoneOnes(false);
+        setShowActiveOnes(true);
     }
 
-    function ShowAllToDos() {
-        for (let i = 0; i < doneToDos.length; i++){
-            if(toDos[i].text == doneToDos[i].text && toDos[i].checked != doneToDos[i].checked) {
-                toDos[i].checked = true;
-            }
-            //setToDos(toDos);
-        }  
+    function showAllToDos() {
+        setShowAll(true);
+        setShowDoneOnes(false);
+        setShowActiveOnes(false);
+    }
+
+    function renderList(toDoArray: toDos[]) {
+        return toDoArray.map(toDo => {
+            return (
+                <div key={toDo.id} className={toDo.checked ? styles.toDoListChecked : styles.toDoList}>
+                    <div className={styles.toDo}>
+                        <Checkbox.Root className={styles.bullet} id={toDo.id} checked={toDo.checked ? true : false} onCheckedChange={(checked) => handleDoneToDos(checked, toDo.id)}>
+                            <Checkbox.Indicator className={styles.indicator}>
+                                <Check size={13} />
+                            </Checkbox.Indicator>
+                        </Checkbox.Root>
+                        <label htmlFor={toDo.id} className={toDo.checked ? styles.label : ''}>
+                            {toDo.text}
+                        </label>
+                    </div>
+                    <button className={styles.trashIcon} onClick={() => handleDeleteToDos(toDo.id)}>
+                        <Trash size={18} />
+                    </button>
+                </div>
+            );
+        })
     }
 
     return (
         <div className={styles.container}>
-            <form className={styles.form} onSubmit={handleToDo}>
-                <input
-                    type="text"
-                    onChange={handleNewToDoChange}
-                    value={newToDo}
-                    required
-                    placeholder="Adicione uma nova tarefa"
-                />
-                <button type='submit' >
-                    Criar
-                    <PlusCircle size={20} />
-                </button>
-            </form>
+            <Form 
+                onToDo={handleToDo}
+                onNewToDoChange={handleNewToDoChange}
+                inputValue={newToDo}
+            />
 
             <div className={styles.containerTasks}>
                 <div className={styles.createdTasks}>
@@ -114,6 +150,12 @@ export function List() {
                 </div>
             </div>
 
+            <div className={noneToDos ? styles.displayNone : styles.categories}>
+                <button onClick={showAllToDos}>Todas</button>
+                <button onClick={showActiveToDos}>Ativas</button>
+                <button onClick={showDoneToDos}>Finalizadas</button>
+            </div>
+
             {noneToDos &&
                 <div className={styles.noneToDos}>
                     <ClipboardText size={50} />
@@ -122,34 +164,11 @@ export function List() {
                 </div>
             }
 
-            {toDos.map(toDo => {
-                return (
-
-                    <div key={toDo.text} className={styles.toDoList}>
-                        <div className={styles.toDo}>
-                            <Checkbox.Root className={styles.bullet} id={toDo.text} onCheckedChange={(checked) => handleDoneToDos(checked, toDo.text)}>
-                                <Checkbox.Indicator className={styles.indicator}>
-                                    <Check size={13} />
-                                </Checkbox.Indicator>
-                            </Checkbox.Root>
-                            <label htmlFor={toDo.text}>
-                                {toDo.text}
-                            </label>
-                        </div>
-                        <button className={styles.trashIcon} onClick={() => handleDeleteToDos(toDo.text)}>
-                            <Trash size={18} />
-                        </button>
-                    </div>
-                );
-
-
-            })}
-
-            <div className={noneToDos ? styles.displayNone : styles.categories}>
-                <button onClick={ShowAllToDos}>Todas</button>
-                <button onClick={showActiveToDos}>Ativas</button>
-                <button onClick={showDoneToDos}>Finalizadas</button>
-            </div>
+            <>
+                {showAll && renderList(toDos)}
+                {showDoneOnes && renderList(doneToDos)}
+                {showActiveOnes && renderList(activeToDos)}
+            </>
 
         </div>
 
