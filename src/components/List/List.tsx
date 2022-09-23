@@ -3,10 +3,11 @@ import styles from './List.module.css';
 
 import { Form } from '../Form/Form';
 import { v4 as uuidv4 } from 'uuid';
-import { Check, ClipboardText, PlusCircle, Trash } from "phosphor-react";
+import { Check, ClipboardText, Trash } from "phosphor-react";
 import * as Checkbox from '@radix-ui/react-checkbox';
+import { usePersistedState } from '../../utils/usePersistedState';
 
-interface toDos {
+export interface toDos {
     id: string;
     text: string;
     checked: boolean;
@@ -14,6 +15,9 @@ interface toDos {
 
 export function List() {
     const [toDos, setToDos] = useState<toDos[]>([]);
+    //const initialState: toDos[] = []; 
+
+    //const [toDos, setToDos] = usePersistedState('tasks', initialState);
 
     const [newToDo, setNewToDo] = useState('');
 
