@@ -24,11 +24,10 @@ Caso prefira abrir a aplicação pelo localhost basta digitar no console `npm ru
 
 ## Design da aplicação
 
-<div style="size: 50%;">
- ![](assetsGH/tela-inicial.png)
-</div>
-
-
+<img src="assetsGH/tela-inicial.png" width="600">
+<img src="assetsGH/tela-all.png" width="600">
+<img src="assetsGH/tela-done.png" width="600">
+<img src="assetsGH/tela-active.png" width="600">
 
 ## Aprendizado
 
