@@ -57,7 +57,7 @@ export function List() {
         });
     }
 
-    function handleDoneToDos(checked: boolean | 'indeterminate', toDoId: toDos['id']) {
+    function handleDoneToDos(checked: boolean | 'indeterminate', toDoId: toDos['id'], toDoChecked: toDos['checked']) {
         if (checked) {
             setCountDoneToDos((state) => {
                 return state + 1;
@@ -67,6 +67,17 @@ export function List() {
 
             setToDos(doneToDos);
         }
+
+        if (!checked && toDoChecked) {
+            const changeDoneToDos = toDos.map(toDo => {return toDo.id == toDoId ? {...toDo, checked: !toDo.checked} : {...toDo, checked: toDo.checked}});
+
+            setToDos(changeDoneToDos);
+
+            setCountDoneToDos((state) => {
+                return state - 1;
+            });
+        }
+
     }
 
     function handleDeleteToDos(toDoToDelete: string) {
@@ -118,7 +129,7 @@ export function List() {
             return (
                 <div key={toDo.id} className={toDo.checked ? styles.toDoListChecked : styles.toDoList}>
                     <div className={styles.toDo}>
-                        <Checkbox.Root className={styles.bullet} id={toDo.id} checked={toDo.checked ? true : false} onCheckedChange={(checked) => handleDoneToDos(checked, toDo.id)}>
+                        <Checkbox.Root className={styles.bullet} id={toDo.id} checked={toDo.checked} onCheckedChange={(checked) => handleDoneToDos(checked, toDo.id, toDo.checked)}>
                             <Checkbox.Indicator className={styles.indicator}>
                                 <Check size={13} />
                             </Checkbox.Indicator>
