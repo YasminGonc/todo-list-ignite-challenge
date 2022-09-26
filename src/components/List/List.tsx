@@ -17,7 +17,7 @@ export function List() {
     const [toDos, setToDos] = useState<toDos[]>([]);
     //const initialState: toDos[] = []; 
 
-    //const [toDos, setToDos] = usePersistedState('tasks', initialState);
+    //const [toDos, setToDos] = usePersistedState('tasks', initialState); --> a ideia aqui era armazenar no locaStorage, mas ao passar esse comando começa a dar erro nos setTodos para baixo. Como isso é um item extra deixei comentado para descobrir como fazer depois
 
     const [newToDo, setNewToDo] = useState('');
 
