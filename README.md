@@ -29,6 +29,9 @@ Caso prefira abrir a aplicação pelo localhost basta digitar no console `npm ru
 <img src="assetsGH/tela-done.png" width="600">
 <img src="assetsGH/tela-active.png" width="600">
 
+### Vídeo da aplicação
+https://www.loom.com/share/20a7f214b2b94eed9e6b53cd9f6237a6
+
 ## Aprendizado
 
 A construção deste projeto permitiu praticar os principais conceitos do React como estados, imutabilidade, componentização e propriedades. Além disso colocar em prática métodos de manipulação de arrays como `filter` e `map`.
